@@ -1,6 +1,5 @@
 import typing as tp
 
-
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     """
     Encrypts plaintext using a Caesar cipher.
@@ -14,8 +13,23 @@ def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
     >>> encrypt_caesar("")
     ''
     """
+    len_of_alphabet = 26
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    while shift > len_of_alphabet:
+        shift -= len_of_alphabet
+    for i in range(len(plaintext)):
+        if 97 <= ord(plaintext[i]) <= 122:
+            if 97 <= ord(plaintext[i]) + shift <= 122:
+                ciphertext += chr(ord(plaintext[i]) + shift)
+            else:
+                ciphertext += chr(ord(plaintext[i]) + shift - len_of_alphabet)
+        elif 65 <= ord(plaintext[i]) <= 90:
+            if 65 <= ord(plaintext[i]) + shift <= 90:
+                ciphertext += chr(ord(plaintext[i]) + shift)
+            else:
+                ciphertext += chr(ord(plaintext[i]) + shift - len_of_alphabet)
+        else:
+            ciphertext += plaintext[i]
     return ciphertext
 
 
@@ -32,15 +46,21 @@ def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
     >>> decrypt_caesar("")
     ''
     """
+    len_of_alphabet = 26
     plaintext = ""
-    # PUT YOUR CODE HERE
+    while shift > len_of_alphabet:
+        shift -= len_of_alphabet
+    for i in range(len(ciphertext)):
+        if 97 <= ord(ciphertext[i]) <= 122:
+            if 97 <= ord(ciphertext[i]) - shift <= 122:
+                plaintext += chr(ord(ciphertext[i]) - shift)
+            else:
+                plaintext += chr(ord(ciphertext[i]) - shift + len_of_alphabet)
+        elif 65 <= ord(ciphertext[i]) <= 90:
+            if 65 <= ord(ciphertext[i]) - shift <= 90:
+                plaintext += chr(ord(ciphertext[i]) - shift)
+            else:
+                plaintext += chr(ord(ciphertext[i]) - shift + len_of_alphabet)
+        else:
+            plaintext += ciphertext[i]
     return plaintext
-
-
-def caesar_breaker_brute_force(ciphertext: str, dictionary: tp.Set[str]) -> int:
-    """
-    Brute force breaking a Caesar cipher.
-    """
-    best_shift = 0
-    # PUT YOUR CODE HERE
-    return best_shift
