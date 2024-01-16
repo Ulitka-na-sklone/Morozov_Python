@@ -1,4 +1,5 @@
 import typing as tp
+import time
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -22,10 +23,16 @@ class Session:
         max_retries: int = 3,
         backoff_factor: float = 0.3,
     ) -> None:
-        pass
+        self.base_url = base_url
+        self.timeout = timeout
+        self.max_retries = max_retries
+        self.backoff_factor = backoff_factor
+        self.session = requests.Session()
 
-    def get(self, url: str, *args: tp.Any, **kwargs: tp.Any) -> requests.Response:
-        pass
+    def get(self, method: str, **kwargs: tp.Any) -> requests.Response:
+        resp = self.session.get(f"{self.base_url}/{method}", params=kwargs)
+        return resp
 
     def post(self, url: str, *args: tp.Any, **kwargs: tp.Any) -> requests.Response:
-        pass
+        response = self.session.post(f"{self.base_url}/{url}", data=kwargs, timeout=self.timeout)
+        return response
